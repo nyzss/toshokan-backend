@@ -1,6 +1,6 @@
-import { Entity, Column, OneToMany, Unique, Index } from "typeorm";
-import { Model } from "./Model";
-import { Post } from "./Post";
+import { Entity, Column, OneToMany, Index } from "typeorm";
+import { Model } from "./ModelEntity";
+import { Post } from "./PostEntity";
 
 enum UserRole {
   ADMIN = "admin",
@@ -12,13 +12,19 @@ enum UserRole {
 @Entity("users")
 export class User extends Model {
   @Index(["username"])
-  @Column()
+  @Column({
+    length: 30,
+    unique: true,
+  })
   username: string;
 
   @Column()
   passwordHash: string;
 
-  @Column()
+  @Column({
+    length: 50,
+    unique: true,
+  })
   email: string;
 
   @OneToMany(

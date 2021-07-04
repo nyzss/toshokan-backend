@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne } from "typeorm";
-import { Model } from "./Model";
-import { User } from "./User";
+import { Model } from "./ModelEntity";
+import { User } from "./UserEntity";
 
 @Entity("posts")
 export class Post extends Model {

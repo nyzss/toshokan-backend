@@ -1,7 +1,8 @@
 import * as dotenv from "dotenv";
 import { createConnection } from "typeorm";
-import { Post } from "./entity/Post";
-import { User } from "./entity/User";
+import { Novel, Tags } from "./entity/NovelEntity";
+import { Post } from "./entity/PostEntity";
+import { User } from "./entity/UserEntity";
 dotenv.config();
 
 const connection = async () => {
@@ -10,7 +11,7 @@ const connection = async () => {
     url: process.env.DATABASE_URL,
     synchronize: true,
     logging: false,
-    entities: [User, Post],
+    entities: [User, Post, Novel, Tags],
   });
 };
 

@@ -1,5 +1,5 @@
 import * as jwt from "jsonwebtoken";
-import { User } from "../../entity/User";
+import { User } from "../../entity/UserEntity";
 import * as bcrypt from "bcryptjs";
 
 interface Register {

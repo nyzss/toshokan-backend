@@ -6,6 +6,7 @@ import PostRoute from "./routes/Main/Post";
 
 import * as dotenv from "dotenv";
 import connection from "./database";
+import NovelRoute from "./routes/Main/Novel";
 dotenv.config();
 
 const start = async () => {
@@ -22,5 +23,6 @@ const start = async () => {
 fastify.register(AuthRoute);
 fastify.register(UserRoute);
 fastify.register(PostRoute);
+fastify.register(NovelRoute);
 
 start();

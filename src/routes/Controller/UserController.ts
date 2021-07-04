@@ -1,12 +1,9 @@
-import { Post } from "../../entity/Post";
-import { User } from "../../entity/User";
+import { Post } from "../../entity/PostEntity";
+import { User } from "../../entity/UserEntity";
 
-const CurrentUserController = async (req , reply) => {
+const CurrentUserController = async (req, reply) => {
   try {
-
-
     reply.send("user here");
-    
   } catch (error) {
     console.log("error");
     reply.code(400).send(error);

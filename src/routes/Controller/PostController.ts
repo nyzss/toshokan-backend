@@ -1,5 +1,5 @@
-import { Post } from "../../entity/Post";
-import { User } from "../../entity/User";
+import { Post } from "../../entity/PostEntity";
+import { User } from "../../entity/UserEntity";
 
 interface AddPost {
   body: {
