@@ -2,7 +2,12 @@ import { Entity, Column, OneToMany, Unique, Index } from "typeorm";
 import { Model } from "./Model";
 import { Post } from "./Post";
 
-type UserRole = "admin" | "moderator" | "contributor" | "member";
+enum UserRole {
+  ADMIN = "admin",
+  MODERATOR = "moderator",
+  CONTRIBUTOR = "contributor",
+  MEMBER = "member",
+}
 
 @Entity("users")
 export class User extends Model {
@@ -24,8 +29,8 @@ export class User extends Model {
 
   @Column({
     type: "enum",
-    enum: ["admin", "moderator", "contributor", "member"],
-    default: "member",
+    enum: UserRole,
+    default: UserRole.MEMBER,
   })
   role: UserRole;
 

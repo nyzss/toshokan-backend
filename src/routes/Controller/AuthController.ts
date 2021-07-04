@@ -28,6 +28,7 @@ const RegisterController = async (req: Register, reply) => {
       {
         id: newUser.id,
         username: newUser.username,
+        role: newUser.role,
       },
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
@@ -133,6 +134,7 @@ const LoginController = async (req: Login, reply) => {
       {
         id: user.id,
         username: user.username,
+        role: user.role,
       },
       process.env.JWT_SECRET,
       { expiresIn: "30d" }
