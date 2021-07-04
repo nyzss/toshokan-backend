@@ -12,12 +12,17 @@ import { Model } from "./ModelEntity";
 export class Novel extends Model {
   @Column()
   title: string;
+
   @Column()
   description: string;
+
   @Column()
   author: string;
 
-  @ManyToMany(() => Tags)
+  @ManyToMany(
+    () => Tags,
+    (tags) => tags.novels
+  )
   @JoinTable()
   tags: Tags[];
 }
@@ -32,4 +37,10 @@ export class Tags extends BaseEntity {
 
   @Column()
   description: string;
+
+  @ManyToMany(
+    () => Novel,
+    (novels) => novels.tags
+  )
+  novels: Novel[];
 }

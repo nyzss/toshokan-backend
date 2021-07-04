@@ -1,11 +1,5 @@
 import { Novel, Tags } from "../../entity/NovelEntity";
-
-interface TagBody {
-  body: {
-    title: string;
-    description: string;
-  };
-}
+import { AddNovelBody, TagBody } from "../../types";
 
 const GetAllNovelsController = async (req, reply) => {
   try {
@@ -20,25 +14,20 @@ const GetAllNovelsController = async (req, reply) => {
   }
 };
 
-const AddNovelController = async (req, reply) => {
+const AddNovelController = async (req: AddNovelBody, reply) => {
   try {
-    const tag1 = await Tags.create({
-      title: "Weak to strong",
-      description: "When the protagonist becomes strong later in the story",
-    }).save();
+    const { title, description, author } = req.body;
 
-    const tag2 = await Tags.create({
-      title: "Xuan Huan",
-      description:
-        "A broad genre of fictional stories which remixes Chinese folklore/mythology with foreign elements & settings.",
-    }).save();
+    if (!title || !description || !author) {
+      return reply
+        .code(400)
+        .send("Please make sure to fill every required field.");
+    }
 
     const novel = await Novel.create({
-      title: "Super God Gene",
-      description:
-        "The future unfolded on a magnificent scale into the Interstellar Age. Humanity finally solved the space warp technology, but when humanity transported themselves into the other end, they discovered that place neither had a past nor future, nor was there any land under the starry skies…… The mysterious sanctuary was actually a world filled with countless tyrannical unusual organisms. Humanity faced their great leap in evolution, starting the most glorious and resplendant new era under the starry skies. “Slaughtered the God Blood organism ‘Black Beetle’. Received the God Blood Black Beetle’s Beast Soul. Used the God Blood Black Beetle’s flesh. Randomly obtaining 0 to 10 points of God Gene(s).”",
-      author: "Twelve-Winged Dark Seraphim",
-      tags: [tag1, tag2],
+      title,
+      description,
+      author,
     }).save();
 
     reply.send(novel);
@@ -50,7 +39,7 @@ const AddNovelController = async (req, reply) => {
 
 const AddTagsController = async (req: TagBody, reply) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, novelId } = req.body;
 
     if (!title || !description) {
       return reply
@@ -60,9 +49,19 @@ const AddTagsController = async (req: TagBody, reply) => {
         );
     }
 
+    const novels = await Novel.find({
+      where: {
+        id: novelId,
+      },
+    });
+
+    if (!novels)
+      return reply.code(400).send("No novels found with the id you provided!");
+
     const newTag = await Tags.create({
       title,
       description,
+      novels,
     }).save();
 
     reply.send(newTag);
