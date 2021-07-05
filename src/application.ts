@@ -12,16 +12,20 @@ const server: FastifyInstance<
   logger: true,
 });
 
-server.register(fastifyCors, {
-  origin: ["http://localhost:3000"],
-  credentials: true,
-});
+const plugins = async () => {
+  await server.register(fastifyCors, {
+    origin: ["http://localhost:3000"],
+    credentials: true,
+  });
 
-server.register(fastifyCookie);
+  await server.register(fastifyCookie);
 
-server.register(fastifySwagger, {
-  exposeRoute: true,
-  routePrefix: "/docs",
-});
+  await server.register(fastifySwagger, {
+    exposeRoute: true,
+    routePrefix: "/docs",
+  });
+};
+
+plugins();
 
 export default server;

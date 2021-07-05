@@ -5,7 +5,11 @@ import {
   AddNovelBodyInterface,
   IDInterface,
   TagBodyInterface,
+  UserRole,
 } from "../../types";
+
+import * as jwt from "jsonwebtoken";
+import { User } from "../../entity/UserEntity";
 
 const GetAllNovelsController = async (
   req: FastifyRequest,
@@ -25,12 +29,30 @@ const GetAllNovelsController = async (
   }
 };
 
+const CheckRole = (token: string) => {
+  /*
+   * if no token, then throws an error
+   * and also checks if the user's role is "member",
+   * if true, throws an error
+   */
+
+  const { role } = jwt.decode(token) as {
+    role: UserRole;
+  };
+
+  if (!token) throw Error;
+  if (role == "member") throw Error;
+};
+
 const AddNovelController = async (
   req: FastifyRequest<{ Body: AddNovelBodyInterface }>,
   reply: FastifyReply
 ) => {
   try {
     const { title, description, author } = req.body;
+    const { token } = req.cookies;
+
+    CheckRole(token);
 
     if (!title || !description || !author) {
       return reply
@@ -47,7 +69,7 @@ const AddNovelController = async (
     reply.send(novel);
   } catch (error) {
     console.log("error");
-    reply.code(400).send(error);
+    reply.code(401).send("Unauthorized");
   }
 };
 
@@ -56,7 +78,7 @@ const AddTagsController = async (
   reply: FastifyReply
 ) => {
   try {
-    const { title, description, novelId } = req.body;
+    const { title, description } = req.body;
 
     if (!title || !description) {
       return reply
@@ -66,19 +88,9 @@ const AddTagsController = async (
         );
     }
 
-    const novels = await Novel.find({
-      where: {
-        id: novelId,
-      },
-    });
-
-    if (!novels)
-      return reply.code(400).send("No novels found with the id you provided!");
-
     const newTag = await Tags.create({
       title,
       description,
-      novels,
     }).save();
 
     reply.send(newTag);
@@ -95,11 +107,15 @@ const GetSingleNovelController = async (
   try {
     const { id } = req.params;
 
-    const singleNovel = await Novel.findOne({
+    const singleNovel = await Novel.findOneOrFail({
       where: {
         id,
       },
       relations: ["tags", "readers"],
+    }).catch(() => {
+      return reply
+        .code(400)
+        .send("Cannot find any novel that matches the provided id.");
     });
 
     reply.send(singleNovel);

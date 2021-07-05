@@ -36,3 +36,10 @@ export interface AddPostInterface {
   content: string;
   id: string;
 }
+
+export enum UserRole {
+  ADMIN = "admin",
+  MODERATOR = "moderator",
+  CONTRIBUTOR = "contributor",
+  MEMBER = "member",
+}

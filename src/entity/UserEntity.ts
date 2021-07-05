@@ -1,14 +1,8 @@
 import { Entity, Column, OneToMany, Index, ManyToMany } from "typeorm";
+import { UserRole } from "../types";
 import { Model } from "./ModelEntity";
 import { Novel } from "./NovelEntity";
 import { Post } from "./PostEntity";
-
-enum UserRole {
-  ADMIN = "admin",
-  MODERATOR = "moderator",
-  CONTRIBUTOR = "contributor",
-  MEMBER = "member",
-}
 
 @Entity("users")
 export class User extends Model {

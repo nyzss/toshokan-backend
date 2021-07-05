@@ -150,7 +150,7 @@ const LoginController = async (
   }
 };
 
-const LogoutController = async (_, reply: FastifyReply) => {
+const LogoutController = async (req: FastifyRequest, reply: FastifyReply) => {
   reply
     .setCookie("token", "", {
       httpOnly: true,
