@@ -1,3 +1,5 @@
+import { FastifyRequest } from "fastify";
+
 export interface TagBody {
   body: {
     title: string;
@@ -15,20 +17,26 @@ export interface AddNovelBody {
 }
 
 export interface SingleUser {
-  params: {
-    id: string;
-  };
+  id: string;
 }
 
 export interface UserAddReadingList {
-  body: {
-    id: string;
-    novelId: string;
-  };
+  id: string;
+  novelId: string;
 }
 
-export interface AuthCheck {
-  cookies: {
-    token: string;
+export type RegisterRequest = FastifyRequest<{
+  Body: {
+    username: string;
+    email: string;
+    password: string;
+    passwordConfirmation: string;
   };
-}
+}>;
+
+export type LoginRequest = FastifyRequest<{
+  Body: {
+    email: string;
+    password: string;
+  };
+}>;
