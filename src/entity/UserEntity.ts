@@ -1,5 +1,6 @@
-import { Entity, Column, OneToMany, Index } from "typeorm";
+import { Entity, Column, OneToMany, Index, ManyToMany } from "typeorm";
 import { Model } from "./ModelEntity";
+import { Novel } from "./NovelEntity";
 import { Post } from "./PostEntity";
 
 enum UserRole {
@@ -44,6 +45,12 @@ export class User extends Model {
     default: "Write something about youself!",
   })
   about: string;
+
+  @ManyToMany(
+    () => Novel,
+    (novels) => novels.readers
+  )
+  list: Novel[];
 
   toJSON() {
     return { ...this, passwordHash: undefined, email: undefined };

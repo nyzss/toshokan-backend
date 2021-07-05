@@ -13,3 +13,16 @@ export interface AddNovelBody {
     author: string;
   };
 }
+
+export interface SingleUser {
+  params: {
+    id: string;
+  };
+}
+
+export interface UserAddReadingList {
+  body: {
+    id: string;
+    novelId: string;
+  };
+}

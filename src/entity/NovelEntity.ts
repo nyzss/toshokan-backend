@@ -7,6 +7,7 @@ import {
   BaseEntity,
 } from "typeorm";
 import { Model } from "./ModelEntity";
+import { User } from "./UserEntity";
 
 @Entity("novels")
 export class Novel extends Model {
@@ -25,6 +26,13 @@ export class Novel extends Model {
   )
   @JoinTable()
   tags: Tags[];
+
+  @ManyToMany(
+    () => User,
+    (users) => users.list
+  )
+  @JoinTable()
+  readers: User[];
 }
 
 @Entity("tags")
