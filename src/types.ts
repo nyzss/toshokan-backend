@@ -28,9 +28,7 @@ export interface UserAddReadingList {
 }
 
 export interface AuthCheck {
-  params: {
-    cookies: {
-      token: string;
-    };
+  cookies: {
+    token: string;
   };
 }

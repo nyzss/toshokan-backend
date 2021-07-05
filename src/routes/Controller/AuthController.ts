@@ -170,17 +170,27 @@ const LogoutController = async (req, reply) => {
     .send("Logged out successfully!");
 };
 
-const CheckController = async (req, reply) => {
+const CheckController = async (req: AuthCheck, reply) => {
+  /*
+   * returns boolean
+   * true  -> user is logged in
+   * false -> user is not logged in
+   *
+   *
+   * jwt verifies token, if there is a match returns "true" (so logged in)
+   * if not then it throws an error, which i catch (using a trycatch block)
+   * and just return "false"
+   *
+   */
+
+  const { token } = req.cookies;
+  if (!token) return reply.send(false);
   try {
-    const { token } = req.cookies;
-    if (!token) return reply.send("No cookies detected!");
-
-    const user = jwt.verify(token, process.env.JWT_SECRET);
-
-    reply.send(user);
+    jwt.verify(token, process.env.JWT_SECRET);
+    reply.send(true);
   } catch (error) {
     console.log(error);
-    reply.code(400).send("Error!");
+    reply.send(false);
   }
 };
 
