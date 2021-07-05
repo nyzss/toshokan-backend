@@ -1,7 +1,11 @@
 import { FastifyReply } from "fastify";
 import { FastifyRequest } from "fastify";
 import { Novel, Tags } from "../../entity/NovelEntity";
-import { AddNovelBodyInterface, TagBodyInterface } from "../../types";
+import {
+  AddNovelBodyInterface,
+  IDInterface,
+  TagBodyInterface,
+} from "../../types";
 
 const GetAllNovelsController = async (
   req: FastifyRequest,
@@ -85,15 +89,20 @@ const AddTagsController = async (
 };
 
 const GetSingleNovelController = async (
-  req: FastifyRequest,
+  req: FastifyRequest<{ Params: IDInterface }>,
   reply: FastifyReply
 ) => {
   try {
-    const allNovels = await Novel.find({
+    const { id } = req.params;
+
+    const singleNovel = await Novel.findOne({
+      where: {
+        id,
+      },
       relations: ["tags", "readers"],
     });
 
-    reply.send(allNovels);
+    reply.send(singleNovel);
   } catch (error) {
     console.log(error);
     reply.code(400).send("Error!");

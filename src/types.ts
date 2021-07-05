@@ -10,7 +10,7 @@ export interface AddNovelBodyInterface {
   author: string;
 }
 
-export interface SingleUserInterface {
+export interface IDInterface {
   id: string;
 }
 
@@ -34,9 +34,5 @@ export interface LoginInterface {
 export interface AddPostInterface {
   title: string;
   content: string;
-  id: string;
-}
-
-export interface UserIdInterface {
   id: string;
 }
