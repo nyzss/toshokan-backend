@@ -1,7 +1,12 @@
+import { FastifyReply } from "fastify";
+import { FastifyRequest } from "fastify";
 import { Novel, Tags } from "../../entity/NovelEntity";
-import { AddNovelBody, TagBody } from "../../types";
+import { AddNovelBodyInterface, TagBodyInterface } from "../../types";
 
-const GetAllNovelsController = async (req, reply) => {
+const GetAllNovelsController = async (
+  req: FastifyRequest,
+  reply: FastifyReply
+) => {
   try {
     //take for the limit
     //skip for the offset
@@ -16,7 +21,10 @@ const GetAllNovelsController = async (req, reply) => {
   }
 };
 
-const AddNovelController = async (req: AddNovelBody, reply) => {
+const AddNovelController = async (
+  req: FastifyRequest<{ Body: AddNovelBodyInterface }>,
+  reply: FastifyReply
+) => {
   try {
     const { title, description, author } = req.body;
 
@@ -39,7 +47,10 @@ const AddNovelController = async (req: AddNovelBody, reply) => {
   }
 };
 
-const AddTagsController = async (req: TagBody, reply) => {
+const AddTagsController = async (
+  req: FastifyRequest<{ Body: TagBodyInterface }>,
+  reply: FastifyReply
+) => {
   try {
     const { title, description, novelId } = req.body;
 
@@ -73,7 +84,10 @@ const AddTagsController = async (req: TagBody, reply) => {
   }
 };
 
-const GetSingleNovelController = async (req, reply) => {
+const GetSingleNovelController = async (
+  req: FastifyRequest,
+  reply: FastifyReply
+) => {
   try {
     const allNovels = await Novel.find({
       relations: ["tags", "readers"],

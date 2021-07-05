@@ -1,6 +1,7 @@
+import { FastifyInstance } from "fastify";
 import { PostReturn, PostGet, PostGetAll } from "../Schema/PostSchema";
 
-const PostRoute = (fastify, options, done) => {
+const PostRoute = (fastify: FastifyInstance, options, done) => {
   fastify.get("/posts/:id", PostGet); // GET ALL POSTS OF A USER
 
   fastify.get("/posts", PostGetAll);

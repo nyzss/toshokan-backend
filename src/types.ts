@@ -1,42 +1,42 @@
-import { FastifyRequest } from "fastify";
-
-export interface TagBody {
-  body: {
-    title: string;
-    description: string;
-    novelId: string;
-  };
+export interface TagBodyInterface {
+  title: string;
+  description: string;
+  novelId: string;
 }
 
-export interface AddNovelBody {
-  body: {
-    title: string;
-    description: string;
-    author: string;
-  };
+export interface AddNovelBodyInterface {
+  title: string;
+  description: string;
+  author: string;
 }
 
-export interface SingleUser {
+export interface SingleUserInterface {
   id: string;
 }
 
-export interface UserAddReadingList {
+export interface UserAddReadingListInterface {
   id: string;
   novelId: string;
 }
 
-export type RegisterRequest = FastifyRequest<{
-  Body: {
-    username: string;
-    email: string;
-    password: string;
-    passwordConfirmation: string;
-  };
-}>;
+export interface RegisterInterface {
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+}
 
-export type LoginRequest = FastifyRequest<{
-  Body: {
-    email: string;
-    password: string;
-  };
-}>;
+export interface LoginInterface {
+  email: string;
+  password: string;
+}
+
+export interface AddPostInterface {
+  title: string;
+  content: string;
+  id: string;
+}
+
+export interface UserIdInterface {
+  id: string;
+}

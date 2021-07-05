@@ -1,3 +1,4 @@
+import { FastifyInstance } from "fastify";
 import {
   AddNovel,
   GetAllNovels,
@@ -5,7 +6,7 @@ import {
   GetSingleNovel,
 } from "../Schema/NovelSchema";
 
-const NovelRoute = (fastify, options, done) => {
+const NovelRoute = (fastify: FastifyInstance, options, done) => {
   fastify.get("/novel", GetAllNovels);
 
   fastify.get("/novel/:id", GetSingleNovel);

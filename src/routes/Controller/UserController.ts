@@ -2,10 +2,10 @@ import { FastifyRequest } from "fastify";
 import { FastifyReply } from "fastify";
 import { Novel } from "../../entity/NovelEntity";
 import { User } from "../../entity/UserEntity";
-import { SingleUser, UserAddReadingList } from "../../types";
+import { SingleUserInterface, UserAddReadingListInterface } from "../../types";
 
 const CurrentUserController = async (
-  req: FastifyRequest<{ Params: SingleUser }>,
+  req: FastifyRequest<{ Params: SingleUserInterface }>,
   reply: FastifyReply
 ) => {
   try {
@@ -28,7 +28,7 @@ const CurrentUserController = async (
 };
 
 const UserAddReadingListController = async (
-  req: FastifyRequest<{ Body: UserAddReadingList }>,
+  req: FastifyRequest<{ Body: UserAddReadingListInterface }>,
   reply: FastifyReply
 ) => {
   try {

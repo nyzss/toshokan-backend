@@ -1,12 +1,12 @@
 import { User } from "../../entity/UserEntity";
 import * as bcrypt from "bcryptjs";
-import { LoginRequest, RegisterRequest } from "../../types";
+import { LoginInterface, RegisterInterface } from "../../types";
 
 import * as jwt from "jsonwebtoken";
 import { FastifyReply, FastifyRequest } from "fastify";
 
 const RegisterController = async (
-  req: RegisterRequest,
+  req: FastifyRequest<{ Body: RegisterInterface }>,
   reply: FastifyReply
 ) => {
   try {
@@ -34,8 +34,8 @@ const RegisterController = async (
     reply
       .setCookie("token", token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
+        // secure: true,
+        // sameSite: "none",
         maxAge: 30 * 24 * 60 * 60 * 1000,
       })
 
@@ -47,7 +47,7 @@ const RegisterController = async (
 };
 
 const registerValidation = async (
-  reply: any,
+  reply: FastifyReply,
   { username, email, password, passwordConfirmation }
 ) => {
   if (password !== passwordConfirmation) {
@@ -101,7 +101,10 @@ const registerValidation = async (
   };
 };
 
-const LoginController = async (req: LoginRequest, reply: FastifyReply) => {
+const LoginController = async (
+  req: FastifyRequest<{ Body: LoginInterface }>,
+  reply: FastifyReply
+) => {
   try {
     const { email, password } = req.body;
 

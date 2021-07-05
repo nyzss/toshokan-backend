@@ -1,21 +1,12 @@
+import { FastifyRequest, FastifyReply } from "fastify";
 import { Post } from "../../entity/PostEntity";
 import { User } from "../../entity/UserEntity";
+import { AddPostInterface, UserIdInterface } from "../../types";
 
-interface AddPost {
-  body: {
-    title: string;
-    content: string;
-    id: string;
-  };
-}
-
-interface UserId {
-  params: {
-    id: string;
-  };
-}
-
-const PostGetController = async (req: UserId, reply: any) => {
+const PostGetController = async (
+  req: FastifyRequest<{ Params: UserIdInterface }>,
+  reply: FastifyReply
+) => {
   try {
     const UsersPosts = await Post.find({
       where: {
@@ -32,7 +23,10 @@ const PostGetController = async (req: UserId, reply: any) => {
   }
 };
 
-const PostGetAllController = async (req, reply) => {
+const PostGetAllController = async (
+  req: FastifyRequest,
+  reply: FastifyReply
+) => {
   try {
     const allPosts = await Post.find();
     reply.send(allPosts);
@@ -42,7 +36,10 @@ const PostGetAllController = async (req, reply) => {
   }
 };
 
-const AddPostController = async (req: AddPost, reply) => {
+const AddPostController = async (
+  req: FastifyRequest<{ Body: AddPostInterface }>,
+  reply: FastifyReply
+) => {
   try {
     const { title, content, id } = req.body;
 
