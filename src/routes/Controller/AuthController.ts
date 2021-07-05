@@ -1,6 +1,8 @@
-import * as jwt from "jsonwebtoken";
 import { User } from "../../entity/UserEntity";
 import * as bcrypt from "bcryptjs";
+import { AuthCheck } from "../../types";
+
+import * as jwt from "jsonwebtoken";
 
 interface Register {
   body: {
@@ -37,10 +39,11 @@ const RegisterController = async (req: Register, reply) => {
     reply
       .setCookie("token", token, {
         httpOnly: true,
-        // secure: true,
-        // sameSite: "none",
+        secure: true,
+        sameSite: "none",
         maxAge: 30 * 24 * 60 * 60 * 1000,
       })
+
       .send("Successfully registered!");
   } catch (error) {
     console.log("error");
@@ -143,11 +146,13 @@ const LoginController = async (req: Login, reply) => {
     reply
       .setCookie("token", token, {
         httpOnly: true,
-        secure: true,
-        sameSite: "none",
+        //removing secure: true for now to make some progress on "security" related stuff
+        // secure: true,
+        // sameSite: "none",
+        path: "/",
         maxAge: 30 * 24 * 60 * 60 * 1000,
       })
-      .send("Succesfully logged in!");
+      .send();
   } catch (error) {
     reply.code(400).send("Error!");
     console.log(error);
@@ -165,4 +170,23 @@ const LogoutController = async (req, reply) => {
     .send("Logged out successfully!");
 };
 
-export { RegisterController, LoginController, LogoutController };
+const CheckController = async (req, reply) => {
+  try {
+    const { token } = req.cookies;
+    if (!token) return reply.send("No cookies detected!");
+
+    const user = jwt.verify(token, process.env.JWT_SECRET);
+
+    reply.send(user);
+  } catch (error) {
+    console.log(error);
+    reply.code(400).send("Error!");
+  }
+};
+
+export {
+  RegisterController,
+  LoginController,
+  LogoutController,
+  CheckController,
+};

@@ -17,9 +17,7 @@ server.register(fastifyCors, {
   credentials: true,
 });
 
-server.register(fastifyCookie, {
-  secret: process.env.COOKIE_SECRET,
-});
+server.register(fastifyCookie);
 
 server.register(fastifySwagger, {
   exposeRoute: true,

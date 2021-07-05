@@ -5,7 +5,9 @@ const GetAllNovelsController = async (req, reply) => {
   try {
     //take for the limit
     //skip for the offset
-    const allNovels = await Novel.find();
+    const allNovels = await Novel.find({
+      take: 10, // limiting to 10 for now, i'll make this value changeable in the near future
+    });
 
     reply.send(allNovels);
   } catch (error) {

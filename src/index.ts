@@ -7,6 +7,7 @@ import PostRoute from "./routes/Main/Post";
 import * as dotenv from "dotenv";
 import connection from "./database";
 import NovelRoute from "./routes/Main/Novel";
+import fastifyCookie from "fastify-cookie";
 dotenv.config();
 
 const start = async () => {

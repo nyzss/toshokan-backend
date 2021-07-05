@@ -26,3 +26,11 @@ export interface UserAddReadingList {
     novelId: string;
   };
 }
+
+export interface AuthCheck {
+  params: {
+    cookies: {
+      token: string;
+    };
+  };
+}

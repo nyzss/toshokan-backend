@@ -2,6 +2,7 @@ import {
   RegisterController,
   LoginController,
   LogoutController,
+  CheckController,
 } from "../Controller/AuthController";
 
 const AuthRegister = {
@@ -42,4 +43,9 @@ const AuthLogin = {
 const AuthLogout = {
   handler: LogoutController,
 };
-export { AuthRegister, AuthLogin, AuthLogout };
+
+const AuthCheck = {
+  handler: CheckController,
+};
+
+export { AuthRegister, AuthLogin, AuthLogout, AuthCheck };
