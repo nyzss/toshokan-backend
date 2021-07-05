@@ -3,12 +3,12 @@ import {
   UserAddReadingListController,
 } from "../Controller/UserController";
 
-const CurrentUser = {
-  handler: CurrentUserController,
-};
-
 const UserAddReading = {
   handler: UserAddReadingListController,
+};
+
+const CurrentUser = {
+  handler: CurrentUserController,
 };
 
 export { CurrentUser, UserAddReading };

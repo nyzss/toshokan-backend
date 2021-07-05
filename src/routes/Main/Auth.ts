@@ -1,3 +1,4 @@
+import { FastifyInstance } from "fastify";
 import {
   AuthCheck,
   AuthLogin,
@@ -5,7 +6,7 @@ import {
   AuthRegister,
 } from "../Schema/AuthSchema";
 
-const AuthRoute = (fastify, options, done) => {
+const AuthRoute = (fastify: FastifyInstance, options, done) => {
   fastify.post("/auth/login", AuthLogin);
 
   fastify.post("/auth/register", AuthRegister);

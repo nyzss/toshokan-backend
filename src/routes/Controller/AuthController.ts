@@ -1,19 +1,14 @@
 import { User } from "../../entity/UserEntity";
 import * as bcrypt from "bcryptjs";
-import { AuthCheck } from "../../types";
+import { LoginRequest, RegisterRequest } from "../../types";
 
 import * as jwt from "jsonwebtoken";
+import { FastifyReply, FastifyRequest } from "fastify";
 
-interface Register {
-  body: {
-    username: string;
-    email: string;
-    password: string;
-    passwordConfirmation: string;
-  };
-}
-
-const RegisterController = async (req: Register, reply) => {
+const RegisterController = async (
+  req: RegisterRequest,
+  reply: FastifyReply
+) => {
   try {
     const { username, email, passwordHash } = await registerValidation(
       reply,
@@ -106,14 +101,7 @@ const registerValidation = async (
   };
 };
 
-interface Login {
-  body: {
-    email: string;
-    password: string;
-  };
-}
-
-const LoginController = async (req: Login, reply) => {
+const LoginController = async (req: LoginRequest, reply: FastifyReply) => {
   try {
     const { email, password } = req.body;
 
@@ -159,18 +147,19 @@ const LoginController = async (req: Login, reply) => {
   }
 };
 
-const LogoutController = async (req, reply) => {
+const LogoutController = async (_, reply: FastifyReply) => {
   reply
     .setCookie("token", "", {
       httpOnly: true,
-      expiresIn: new Date(0),
+      expires: new Date(0),
       secure: true,
       sameSite: "none",
     })
+    .clearCookie("token") //here
     .send("Logged out successfully!");
 };
 
-const CheckController = async (req: AuthCheck, reply) => {
+const CheckController = async (req: FastifyRequest, reply: FastifyReply) => {
   /*
    * returns boolean
    * true  -> user is logged in
@@ -185,11 +174,14 @@ const CheckController = async (req: AuthCheck, reply) => {
 
   const { token } = req.cookies;
   if (!token) return reply.send(false);
+
   try {
     jwt.verify(token, process.env.JWT_SECRET);
+
     reply.send(true);
   } catch (error) {
     console.log(error);
+
     reply.send(false);
   }
 };

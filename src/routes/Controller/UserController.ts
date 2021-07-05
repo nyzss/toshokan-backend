@@ -1,8 +1,13 @@
+import { FastifyRequest } from "fastify";
+import { FastifyReply } from "fastify";
 import { Novel } from "../../entity/NovelEntity";
 import { User } from "../../entity/UserEntity";
 import { SingleUser, UserAddReadingList } from "../../types";
 
-const CurrentUserController = async (req: SingleUser, reply) => {
+const CurrentUserController = async (
+  req: FastifyRequest<{ Params: SingleUser }>,
+  reply: FastifyReply
+) => {
   try {
     const { id } = req.params;
 
@@ -22,7 +27,10 @@ const CurrentUserController = async (req: SingleUser, reply) => {
   }
 };
 
-const UserAddReadingListController = async (req: UserAddReadingList, reply) => {
+const UserAddReadingListController = async (
+  req: FastifyRequest<{ Body: UserAddReadingList }>,
+  reply: FastifyReply
+) => {
   try {
     const { id, novelId } = req.body;
 
