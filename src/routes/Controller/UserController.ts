@@ -42,9 +42,12 @@ const UserAddReadingListController = async (req: UserAddReadingList, reply) => {
         id: novelId,
       },
     });
+
+    novel.totalReader += 1;
     user.list = [novel];
 
     await user.save();
+    await novel.save();
 
     reply.send(user);
   } catch (error) {

@@ -5,6 +5,9 @@ import {
   ManyToMany,
   JoinTable,
   BaseEntity,
+  AfterInsert,
+  AfterLoad,
+  BeforeUpdate,
 } from "typeorm";
 import { Model } from "./ModelEntity";
 import { User } from "./UserEntity";
@@ -33,6 +36,11 @@ export class Novel extends Model {
   )
   @JoinTable()
   readers: User[];
+
+  @Column({
+    default: 0,
+  })
+  totalReader: number;
 }
 
 @Entity("tags")

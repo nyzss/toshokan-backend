@@ -74,7 +74,7 @@ const AddTagsController = async (req: TagBody, reply) => {
 const GetSingleNovelController = async (req, reply) => {
   try {
     const allNovels = await Novel.find({
-      relations: ["tags"],
+      relations: ["tags", "readers"],
     });
 
     reply.send(allNovels);
