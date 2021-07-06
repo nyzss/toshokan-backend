@@ -1,19 +1,19 @@
 import { FastifyInstance } from "fastify";
 import {
-  AuthCheck,
-  AuthLogin,
-  AuthLogout,
-  AuthRegister,
-} from "../Schema/AuthSchema";
+  CheckController,
+  LoginController,
+  LogoutController,
+  RegisterController,
+} from "../Controller/AuthController";
 
 const AuthRoute = (fastify: FastifyInstance, options, done) => {
-  fastify.post("/auth/login", AuthLogin);
+  fastify.post("/auth/login", LoginController);
 
-  fastify.post("/auth/register", AuthRegister);
+  fastify.post("/auth/register", RegisterController);
 
-  fastify.get("/auth/logout", AuthLogout);
+  fastify.get("/auth/logout", LogoutController);
 
-  fastify.get("/auth/check", AuthCheck);
+  fastify.get("/auth/check", CheckController);
 
   done();
 };

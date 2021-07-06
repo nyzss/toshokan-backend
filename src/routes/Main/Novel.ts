@@ -1,19 +1,19 @@
 import { FastifyInstance } from "fastify";
 import {
-  AddNovel,
-  GetAllNovels,
-  AddTags,
-  GetSingleNovel,
-} from "../Schema/NovelSchema";
+  AddNovelController,
+  AddTagsController,
+  GetAllNovelsController,
+  GetSingleNovelController,
+} from "../Controller/NovelController";
 
 const NovelRoute = (fastify: FastifyInstance, options, done) => {
-  fastify.get("/novel", GetAllNovels);
+  fastify.get("/novel", GetAllNovelsController);
 
-  fastify.get("/novel/:id", GetSingleNovel);
+  fastify.get("/novel/:id", GetSingleNovelController);
 
-  fastify.post("/novel/add", AddNovel);
+  fastify.post("/novel/add", AddNovelController);
 
-  fastify.post("/novel/tag", AddTags);
+  fastify.post("/novel/tag", AddTagsController);
 
   done();
 };

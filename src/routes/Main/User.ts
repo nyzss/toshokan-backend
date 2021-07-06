@@ -1,10 +1,13 @@
 import { FastifyInstance } from "fastify";
-import { CurrentUser, UserAddReading } from "../Schema/UserSchema";
+import {
+  CurrentUserController,
+  UserAddReadingListController,
+} from "../Controller/UserController";
 
 const UserRoute = (fastify: FastifyInstance, options, done) => {
-  fastify.post("/users/novel/add", UserAddReading);
+  fastify.post("/users/novel/add", UserAddReadingListController);
 
-  fastify.get("/users/:id", CurrentUser);
+  fastify.get("/users/:id", CurrentUserController);
   done();
 };
 
