@@ -43,3 +43,8 @@ export enum UserRole {
   CONTRIBUTOR = "contributor",
   MEMBER = "member",
 }
+
+export interface NovelQueryInterface {
+  limit: string | number;
+  offset: string | number;
+}

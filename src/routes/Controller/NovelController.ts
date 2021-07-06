@@ -4,44 +4,32 @@ import { Novel, Tags } from "../../entity/NovelEntity";
 import {
   AddNovelBodyInterface,
   IDInterface,
+  NovelQueryInterface,
   TagBodyInterface,
-  UserRole,
 } from "../../types";
 
-import * as jwt from "jsonwebtoken";
-import { User } from "../../entity/UserEntity";
+import { CheckRole, convert } from "../utils";
 
 const GetAllNovelsController = async (
-  req: FastifyRequest,
+  req: FastifyRequest<{ Querystring: NovelQueryInterface }>,
   reply: FastifyReply
 ) => {
   try {
+    const { limit, offset } = convert(req.query);
+
     //take for the limit
     //skip for the offset
     const allNovels = await Novel.find({
-      take: 10, // limiting to 10 for now, i'll make this value changeable in the near future
+      take: limit,
+      skip: offset,
     });
 
-    reply.send(allNovels);
+    reply.send({ total: allNovels.length, offset, limit, data: allNovels });
   } catch (error) {
     console.log(error);
-    reply.send("Error at fetching all novels!");
+    // reply.send("Error at fetching all novels!");
+    reply.send(error);
   }
-};
-
-const CheckRole = (token: string) => {
-  /*
-   * if no token, then throws an error
-   * and also checks if the user's role is "member",
-   * if true, throws an error
-   */
-
-  const { role } = jwt.decode(token) as {
-    role: UserRole;
-  };
-
-  if (!token) throw Error;
-  if (role == "member") throw Error;
 };
 
 const AddNovelController = async (
@@ -52,7 +40,7 @@ const AddNovelController = async (
     const { title, description, author } = req.body;
     const { token } = req.cookies;
 
-    CheckRole(token);
+    CheckRole(token, reply);
 
     if (!title || !description || !author) {
       return reply
@@ -78,6 +66,10 @@ const AddTagsController = async (
   reply: FastifyReply
 ) => {
   try {
+    const { token } = req.cookies;
+
+    CheckRole(token, reply);
+
     const { title, description } = req.body;
 
     if (!title || !description) {
