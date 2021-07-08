@@ -1,9 +1,8 @@
-import { User } from "../../entity/UserEntity";
 import * as bcrypt from "bcryptjs";
-import { LoginInterface, RegisterInterface } from "../../types";
-
-import * as jwt from "jsonwebtoken";
 import { FastifyReply, FastifyRequest } from "fastify";
+import * as jwt from "jsonwebtoken";
+import { User } from "../../entity/UserEntity";
+import { LoginInterface, RegisterInterface } from "../../types";
 
 const RegisterController = async (
   req: FastifyRequest<{ Body: RegisterInterface }>,
@@ -143,7 +142,7 @@ const LoginController = async (
         path: "/",
         maxAge: 30 * 24 * 60 * 60 * 1000,
       })
-      .send();
+      .send(user);
   } catch (error) {
     reply.code(400).send("Error!");
     console.log(error);
@@ -166,6 +165,8 @@ const CheckController = async (req: FastifyRequest, reply: FastifyReply) => {
   /*
    * returns boolean
    * true  -> user is logged in
+   * // I think i'm gonna make this return the user data
+   * so i can preserve it more easily on the frontend
    * false -> user is not logged in
    *
    *
@@ -179,9 +180,13 @@ const CheckController = async (req: FastifyRequest, reply: FastifyReply) => {
   if (!token) return reply.send(false);
 
   try {
-    jwt.verify(token, process.env.JWT_SECRET);
+    const userToken = jwt.verify(token, process.env.JWT_SECRET) as {
+      id: string;
+    };
 
-    reply.send(true);
+    const user = await User.findOne(userToken.id);
+
+    reply.send(user);
   } catch (error) {
     console.log(error);
 

@@ -21,8 +21,9 @@ const plugins = async () => {
   await server.register(fastifyCookie);
 
   await server.register(fastifySwagger, {
-    exposeRoute: true,
     routePrefix: "/docs",
+    exposeRoute: true,
+    swagger: {},
   });
 };
 
