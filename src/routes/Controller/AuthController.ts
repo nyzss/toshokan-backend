@@ -33,8 +33,8 @@ const RegisterController = async (
     reply
       .setCookie("token", token, {
         httpOnly: true,
-        // secure: true,
-        // sameSite: "none",
+        secure: true,
+        sameSite: "none",
         maxAge: 30 * 24 * 60 * 60 * 1000,
       })
 
@@ -70,7 +70,7 @@ const registerValidation = async (
   }
 
   const usernameValidation = (username: string) =>
-    /^(?!.*\.\.)(?!.*\.$)[^\W][\w-]{0,29}$/.test(username);
+    /^(?!.*\.\.)(?!.*\.$)[^\W][\w-]{0,32}$/.test(username); //i can delete these probably
 
   const emailValidation = (email: string) => /\S+@\S+\.\S+/.test(email);
 
@@ -136,9 +136,8 @@ const LoginController = async (
     reply
       .setCookie("token", token, {
         httpOnly: true,
-        //removing secure: true for now to make some progress on "security" related stuff
-        // secure: true,
-        // sameSite: "none",
+        secure: true,
+        sameSite: "none",
         path: "/",
         maxAge: 30 * 24 * 60 * 60 * 1000,
       })
