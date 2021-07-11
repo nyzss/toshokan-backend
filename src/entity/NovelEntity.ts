@@ -1,14 +1,12 @@
 import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
   BaseEntity,
-  AfterInsert,
-  AfterLoad,
-  BeforeUpdate,
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
 } from "typeorm";
+import { Languages, NovelTypes } from "../types/enums";
 import { Model } from "./ModelEntity";
 import { User } from "./UserEntity";
 
@@ -23,12 +21,17 @@ export class Novel extends Model {
   @Column()
   author: string;
 
+  @Column()
+  coverUrl: string;
+
   @ManyToMany(
     () => Tags,
     (tags) => tags.novels
   )
   @JoinTable()
   tags: Tags[];
+  // Tags as many to many because there are a lot of tags
+  // and i dont have the willpower to add them manually
 
   @ManyToMany(
     () => User,
@@ -41,6 +44,18 @@ export class Novel extends Model {
     default: 0,
   })
   totalReader: number;
+
+  @Column({
+    type: "enum",
+    enum: Languages,
+  })
+  languages: Languages;
+
+  @Column({
+    type: "enum",
+    enum: NovelTypes,
+  })
+  type: NovelTypes;
 }
 
 @Entity("tags")
