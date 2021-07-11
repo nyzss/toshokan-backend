@@ -1,6 +1,6 @@
 import { FastifyReply } from "fastify";
-import { UserRole } from "../types";
 import * as jwt from "jsonwebtoken";
+import { UserRole } from "../types/types";
 
 const convert = ({ limit, offset }) => {
   if (limit > 50) limit = 50;

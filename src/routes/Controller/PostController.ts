@@ -1,7 +1,7 @@
-import { FastifyRequest, FastifyReply } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { Post } from "../../entity/PostEntity";
 import { User } from "../../entity/UserEntity";
-import { AddPostInterface, IDInterface } from "../../types";
+import { AddPostInterface, IDInterface } from "../../types/types";
 
 const PostGetController = async (
   req: FastifyRequest<{ Params: IDInterface }>,

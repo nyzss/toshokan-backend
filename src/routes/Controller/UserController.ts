@@ -1,8 +1,7 @@
-import { FastifyRequest } from "fastify";
-import { FastifyReply } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { Novel } from "../../entity/NovelEntity";
 import { User } from "../../entity/UserEntity";
-import { IDInterface, UserAddReadingListInterface } from "../../types";
+import { IDInterface, UserAddReadingListInterface } from "../../types/types";
 
 const CurrentUserController = async (
   req: FastifyRequest<{ Params: IDInterface }>,

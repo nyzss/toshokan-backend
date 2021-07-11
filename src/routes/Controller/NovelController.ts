@@ -1,13 +1,11 @@
-import { FastifyReply } from "fastify";
-import { FastifyRequest } from "fastify";
+import { FastifyReply, FastifyRequest } from "fastify";
 import { Novel, Tags } from "../../entity/NovelEntity";
 import {
   AddNovelBodyInterface,
   IDInterface,
   NovelQueryInterface,
   TagBodyInterface,
-} from "../../types";
-
+} from "../../types/types";
 import { CheckRole, convert } from "../utils";
 
 const GetAllNovelsController = async (

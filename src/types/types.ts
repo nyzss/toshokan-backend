@@ -36,14 +36,6 @@ export interface AddPostInterface {
   content: string;
   id: string;
 }
-
-export enum UserRole {
-  ADMIN = "admin",
-  MODERATOR = "moderator",
-  CONTRIBUTOR = "contributor",
-  MEMBER = "member",
-}
-
 export interface NovelQueryInterface {
   limit: string | number;
   offset: string | number;

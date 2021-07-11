@@ -2,7 +2,7 @@ import * as bcrypt from "bcryptjs";
 import { FastifyReply, FastifyRequest } from "fastify";
 import * as jwt from "jsonwebtoken";
 import { User } from "../../entity/UserEntity";
-import { LoginInterface, RegisterInterface } from "../../types";
+import { LoginInterface, RegisterInterface } from "../../types/types";
 
 const RegisterController = async (
   req: FastifyRequest<{ Body: RegisterInterface }>,

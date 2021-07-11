@@ -1,5 +1,5 @@
-import { Entity, Column, OneToMany, Index, ManyToMany } from "typeorm";
-import { UserRole } from "../types";
+import { Column, Entity, Index, ManyToMany, OneToMany } from "typeorm";
+import { UserRole } from "../types/enums";
 import { Model } from "./ModelEntity";
 import { Novel } from "./NovelEntity";
 import { Post } from "./PostEntity";
