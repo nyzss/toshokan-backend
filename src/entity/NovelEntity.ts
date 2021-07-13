@@ -24,6 +24,11 @@ export class Novel extends Model {
   @Column()
   coverUrl: string;
 
+  @Column({
+    default: 0,
+  })
+  chapter: number;
+
   @ManyToMany(
     () => Tags,
     (tags) => tags.novels
