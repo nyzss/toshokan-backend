@@ -40,3 +40,8 @@ export interface NovelQueryInterface {
   limit: string | number;
   offset: string | number;
 }
+
+export interface TagNovelInterface {
+  novelId: string;
+  tagId: string;
+}

@@ -5,6 +5,7 @@ import {
   IDInterface,
   NovelQueryInterface,
   TagBodyInterface,
+  TagNovelInterface,
 } from "../../types/types";
 import { CheckRole, convert } from "../utils";
 
@@ -86,7 +87,7 @@ const AddTagsController = async (
     reply.send(newTag);
   } catch (error) {
     console.log(error);
-    reply.send(error);
+    reply.code(500).send(error);
   }
 };
 
@@ -115,9 +116,59 @@ const GetSingleNovelController = async (
   }
 };
 
+const GetAllTagsController = async (
+  req: FastifyRequest,
+  reply: FastifyReply
+) => {
+  try {
+    const allTags = await Tags.find();
+
+    reply.send(allTags);
+  } catch (error) {
+    reply.code(400).send("Couldn't find any tags!");
+  }
+};
+
+const DeleteTagController = async (
+  req: FastifyRequest<{ Params: IDInterface }>,
+  reply: FastifyReply
+) => {
+  try {
+    const { id } = req.params;
+
+    const deleted = await Tags.delete(id);
+
+    reply.send(deleted);
+
+    reply.send(id);
+  } catch (error) {
+    reply.code(400).send("Tag does not exist!");
+  }
+};
+
+const AddTagToNovelController = async (
+  req: FastifyRequest<{ Body: TagNovelInterface }>,
+  reply: FastifyReply
+) => {
+  try {
+    const { novelId, tagId } = req.body;
+
+    const novel = await Novel.findOne(novelId);
+
+    const tag = await Tags.findOne(tagId);
+
+    // novel.tags = tag HERhEEHEHHHRHERHERHERHERHEHR
+  } catch (error) {
+    console.log(error);
+    reply.code(400).send("Couldn't find tag or novel!");
+  }
+};
+
 export {
   AddNovelController,
   GetAllNovelsController,
   AddTagsController,
   GetSingleNovelController,
+  GetAllTagsController,
+  DeleteTagController,
 };

@@ -31,12 +31,13 @@ export class Novel extends Model {
 
   @ManyToMany(
     () => Tags,
-    (tags) => tags.novels
+    (tags) => tags.novels,
+    {
+      onDelete: "SET NULL",
+    }
   )
   @JoinTable()
   tags: Tags[];
-  // Tags as many to many because there are a lot of tags
-  // and i dont have the willpower to add them manually
 
   @ManyToMany(
     () => User,
@@ -63,6 +64,8 @@ export class Novel extends Model {
   type: NovelTypes;
 }
 
+// Tags as many to many because there are a lot of tags
+// and i dont have the willpower to add them manually
 @Entity("tags")
 export class Tags extends BaseEntity {
   @PrimaryGeneratedColumn("uuid")
