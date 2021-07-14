@@ -7,7 +7,7 @@ import {
   TagBodyInterface,
   TagNovelInterface,
 } from "../../types/types";
-import { CheckRole, convert } from "../utils";
+import { convert } from "../utils";
 
 const GetAllNovelsController = async (
   req: FastifyRequest<{ Querystring: NovelQueryInterface }>,
@@ -47,9 +47,9 @@ const AddNovelController = async (
       type,
       status,
     } = req.body;
-    const { token } = req.cookies;
+    // const { token } = req.cookies;
 
-    CheckRole(token, reply);
+    // CheckRole(token, reply);
 
     if (!title || !description || !author)
       throw "Please make sure to fill every required field.";
@@ -78,9 +78,9 @@ const AddTagsController = async (
   reply: FastifyReply
 ) => {
   try {
-    const { token } = req.cookies;
+    // const { token } = req.cookies;
 
-    CheckRole(token, reply);
+    // CheckRole(token, reply);
 
     const { title, description } = req.body;
 
@@ -173,7 +173,7 @@ const AddTagToNovelController = async (
 
     const tag = await Tags.findOneOrFail(tagId);
 
-    // novel.tags = [...novel.tags, tag];
+    // novel.tags = [...novel.tags, tag]; //this seems to be slower, so i'll go with the push
 
     novel.tags.push(tag);
 
