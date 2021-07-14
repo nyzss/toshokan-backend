@@ -1,3 +1,5 @@
+import { Languages, NovelTypes, Status } from "./enums";
+
 export interface TagBodyInterface {
   title: string;
   description: string;
@@ -8,6 +10,12 @@ export interface AddNovelBodyInterface {
   title: string;
   description: string;
   author: string;
+  artist: string;
+  coverUrl: string;
+  language: Languages;
+  type: NovelTypes;
+  chapter: number;
+  status: Status;
 }
 
 export interface IDInterface {

@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import {
   AddNovelController,
   AddTagsController,
+  AddTagToNovelController,
   DeleteTagController,
   GetAllNovelsController,
   GetAllTagsController,
@@ -22,6 +23,8 @@ const NovelRoute = (fastify: FastifyInstance, options, done) => {
   fastify.delete("/novel/tag/:id", DeleteTagController);
 
   fastify.post("/novel/tag", AddTagsController);
+
+  fastify.put("/novel/tag", AddTagToNovelController);
 
   done();
 };

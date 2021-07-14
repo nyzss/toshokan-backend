@@ -6,7 +6,7 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Languages, NovelTypes } from "../types/enums";
+import { Languages, NovelTypes, Status } from "../types/enums";
 import { Model } from "./ModelEntity";
 import { User } from "./UserEntity";
 
@@ -21,6 +21,11 @@ export class Novel extends Model {
   @Column()
   author: string;
 
+  @Column({
+    default: "unknown",
+  })
+  artist: string;
+
   @Column()
   coverUrl: string;
 
@@ -31,10 +36,7 @@ export class Novel extends Model {
 
   @ManyToMany(
     () => Tags,
-    (tags) => tags.novels,
-    {
-      onDelete: "SET NULL",
-    }
+    (tags) => tags.novels
   )
   @JoinTable()
   tags: Tags[];
@@ -55,13 +57,18 @@ export class Novel extends Model {
     type: "enum",
     enum: Languages,
   })
-  languages: Languages;
+  language: Languages;
 
   @Column({
     type: "enum",
     enum: NovelTypes,
   })
   type: NovelTypes;
+  @Column({
+    type: "enum",
+    enum: Status,
+  })
+  status: Status;
 }
 
 // Tags as many to many because there are a lot of tags
@@ -79,7 +86,10 @@ export class Tags extends BaseEntity {
 
   @ManyToMany(
     () => Novel,
-    (novels) => novels.tags
+    (novels) => novels.tags,
+    {
+      onDelete: "CASCADE",
+    }
   )
   novels: Novel[];
 }

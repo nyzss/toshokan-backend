@@ -36,27 +36,40 @@ const AddNovelController = async (
   reply: FastifyReply
 ) => {
   try {
-    const { title, description, author } = req.body;
+    const {
+      title,
+      description,
+      author,
+      coverUrl,
+      artist,
+      chapter,
+      language,
+      type,
+      status,
+    } = req.body;
     const { token } = req.cookies;
 
     CheckRole(token, reply);
 
-    if (!title || !description || !author) {
-      return reply
-        .code(400)
-        .send("Please make sure to fill every required field.");
-    }
+    if (!title || !description || !author)
+      throw "Please make sure to fill every required field.";
 
     const novel = await Novel.create({
       title,
       description,
       author,
+      artist,
+      coverUrl,
+      chapter,
+      language,
+      type,
+      status,
     }).save();
 
     reply.send(novel);
   } catch (error) {
-    console.log("error");
-    reply.code(401).send("Unauthorized");
+    console.log(error);
+    reply.code(401).send(error || "Error!");
   }
 };
 
@@ -142,7 +155,8 @@ const DeleteTagController = async (
 
     reply.send(id);
   } catch (error) {
-    reply.code(400).send("Tag does not exist!");
+    // reply.code(400).send("Tag does not exist!");
+    reply.code(400).send(error);
   }
 };
 
@@ -153,13 +167,22 @@ const AddTagToNovelController = async (
   try {
     const { novelId, tagId } = req.body;
 
-    const novel = await Novel.findOne(novelId);
+    const novel = await Novel.findOneOrFail(novelId, {
+      relations: ["tags"], //adding the relation so that i can just push to the novel.tags the new tag
+    });
 
-    const tag = await Tags.findOne(tagId);
+    const tag = await Tags.findOneOrFail(tagId);
 
-    // novel.tags = tag HERhEEHEHHHRHERHERHERHERHEHR
+    // novel.tags = [...novel.tags, tag];
+
+    novel.tags.push(tag);
+
+    const savedNovel = await novel.save();
+
+    reply.send(savedNovel);
   } catch (error) {
     console.log(error);
+    // reply.code(400).send(error);
     reply.code(400).send("Couldn't find tag or novel!");
   }
 };
@@ -171,4 +194,5 @@ export {
   GetSingleNovelController,
   GetAllTagsController,
   DeleteTagController,
+  AddTagToNovelController,
 };
