@@ -46,6 +46,7 @@ const AddNovelController = async (
       language,
       type,
       status,
+      releaseYear,
     } = req.body;
     // const { token } = req.cookies;
 
@@ -64,6 +65,7 @@ const AddNovelController = async (
       language,
       type,
       status,
+      releaseYear,
     }).save();
 
     reply.send(novel);
@@ -155,8 +157,7 @@ const DeleteTagController = async (
 
     reply.send(id);
   } catch (error) {
-    // reply.code(400).send("Tag does not exist!");
-    reply.code(400).send(error);
+    reply.code(400).send("Tag does not exist or the provided id is invalid!");
   }
 };
 
@@ -173,9 +174,9 @@ const AddTagToNovelController = async (
 
     const tag = await Tags.findOneOrFail(tagId);
 
-    // novel.tags = [...novel.tags, tag]; //this seems to be slower, so i'll go with the push
+    novel.tags = [...novel.tags, tag]; //idk if it is slower or not, anyway i'm going with this as it's more readable for me
 
-    novel.tags.push(tag);
+    // novel.tags.push(tag);
 
     const savedNovel = await novel.save();
 

@@ -51,6 +51,11 @@ export class Novel extends Model {
   @Column({
     default: 0,
   })
+  releaseYear: number;
+
+  @Column({
+    default: 0,
+  })
   totalReader: number;
 
   @Column({

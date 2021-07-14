@@ -16,6 +16,7 @@ export interface AddNovelBodyInterface {
   type: NovelTypes;
   chapter: number;
   status: Status;
+  releaseYear: number;
 }
 
 export interface IDInterface {
