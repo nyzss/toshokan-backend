@@ -22,15 +22,17 @@ export class Novel extends Model {
   author: string;
 
   @Column({
-    default: "unknown",
+    nullable: true,
   })
   artist: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   coverUrl: string;
 
   @Column({
-    default: 0,
+    nullable: true,
   })
   chapter: number;
 
@@ -49,7 +51,7 @@ export class Novel extends Model {
   readers: User[];
 
   @Column({
-    default: 0,
+    nullable: true,
   })
   releaseYear: number;
 
