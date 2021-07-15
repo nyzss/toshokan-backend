@@ -4,7 +4,7 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from "typeorm";
 import { Languages, NovelTypes, Status } from "../types/enums";
 import { Model } from "./ModelEntity";
@@ -28,8 +28,6 @@ export class Novel extends Model {
 
   @Column({
     nullable: true,
-    default:
-      "https://ryrimwaobktkmpeancvt.supabase.co/storage/v1/object/public/toshokan/512x.png", //might wanna change this later on
   })
   coverUrl: string;
 
